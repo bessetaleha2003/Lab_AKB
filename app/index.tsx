@@ -50,27 +50,27 @@ export default function Index() {
 
   const [imageStates, setImageStates] = useState(
     imageData.map(() => ({
-      scale: 1,
       isAlternative: false,
+      scale: 1,
+      clickedOnce: false,
     }))
   );
 
-  const handleImageClick = (index : number) => {
+  const handleImageClick = (index: number) => {
     setImageStates((prevStates) => {
       const newStates = [...prevStates];
       const currentState = newStates[index];
+
+      // Toggle gambar, tapi hanya skala sekali
       newStates[index] = {
         ...currentState,
         isAlternative: !currentState.isAlternative,
-        scale: Math.min(currentState.scale * 1.2, 2),
+        scale: currentState.clickedOnce ? currentState.scale : 1.2,
+        clickedOnce: true,
       };
       return newStates;
     });
   };
-
-  // Calculate image size based on screen width
-  const screenWidth = Dimensions.get("window").width;
-  const imageSize = (screenWidth - 40) / 3; // Adjusted for margins
 
   return (
     <View style={styles.container}>
@@ -81,6 +81,7 @@ export default function Index() {
               key={index}
               onPress={() => handleImageClick(index)}
               activeOpacity={0.8}
+              style={styles.gridCell}
             >
               <Image
                 source={{
@@ -89,12 +90,10 @@ export default function Index() {
                     : imageData[index].main,
                 }}
                 style={[
+                  styles.image,
                   {
-                    width: imageSize,
-                    height: imageSize,
                     transform: [{ scale: state.scale }],
                   },
-                  styles.image,
                 ]}
               />
             </TouchableOpacity>
@@ -118,11 +117,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    paddingHorizontal: 5,
+    maxWidth: 330, // 3x 100px + margin
+  },
+  gridCell: {
+    width: 100,
+    height: 100,
+    margin: 5,
+    backgroundColor: "#ddd",
+    borderRadius: 8,
+    overflow: "hidden",
   },
   image: {
-    margin: 5,
-    borderRadius: 10,
+    width: "100%",
+    height: "100%",
+    borderRadius: 8,
     backgroundColor: "#ccc",
   },
 });
