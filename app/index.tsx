@@ -62,6 +62,7 @@ export default function Index() {
       id: img.id,
       isAlternative: false,
       scale: 1,
+      maxScale: 2,
     }))
   );
 
@@ -69,7 +70,7 @@ export default function Index() {
     setImageStates((prevStates) => {
       const updated = [...prevStates];
       const current = updated[index];
-      const newScale = current.scale < 2 ? Math.min(current.scale * 1.2, 2) : 2;
+      const newScale = current.scale < current.maxScale ? Math.min(current.scale + 0.2, current.maxScale) : current.maxScale;
 
       updated[index] = {
         ...current,
@@ -82,7 +83,7 @@ export default function Index() {
   };
 
   const screenWidth = Dimensions.get("window").width;
-  const imageSize = (screenWidth - 40) / 3;
+  const imageSize = (screenWidth - 40) / 2;
 
   return (
     <View style={styles.container}>
