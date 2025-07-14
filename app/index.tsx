@@ -62,6 +62,7 @@ export default function Index() {
       id: img.id,
       isAlternative: false,
       scale: 1,
+      maxScale: 2,
     }))
   );
 
@@ -69,24 +70,13 @@ export default function Index() {
     setImageStates((prevStates) => {
       const updated = [...prevStates];
       const current = updated[index];
-      
-      // Reset scale to 1 when switching images, then apply scaling
-      if (current.isAlternative) {
-        // If currently showing alternative, switch to main and reset scale
-        updated[index] = {
-          ...current,
-          isAlternative: false,
-          scale: 1,
-        };
-      } else {
-        // If currently showing main, switch to alternative and scale up (but not exceed maxScale)
-        const newScale = Math.min(current.scale * 1.2, 2);
-        updated[index] = {
-          ...current,
-          isAlternative: true,
-          scale: newScale,
-        };
-      }
+      const newScale = Math.min(current.scale * 1.2, current.maxScale);
+
+      updated[index] = {
+        ...current,
+        isAlternative: !current.isAlternative,
+        scale: newScale,
+      };
 
       return updated;
     });
@@ -115,10 +105,9 @@ export default function Index() {
                 style={[
                   styles.image,
                   {
-                    transform: [{ scale: Math.min(state.scale,2) }],
+                    transform: [{ scale: state.scale }],
                   },
                 ]}
-                resizeMode="cover"
               />
             </TouchableOpacity>
           ))}
