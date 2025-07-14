@@ -62,7 +62,6 @@ export default function Index() {
       id: img.id,
       isAlternative: false,
       scale: 1,
-      maxScale: 2,
     }))
   );
 
@@ -81,7 +80,7 @@ export default function Index() {
         };
       } else {
         // If currently showing main, switch to alternative and scale up (but not exceed maxScale)
-        const newScale = Math.min(current.scale * 1.2, current.maxScale);
+        const newScale = Math.min(current.scale * 1.2, 2);
         updated[index] = {
           ...current,
           isAlternative: true,
@@ -116,7 +115,7 @@ export default function Index() {
                 style={[
                   styles.image,
                   {
-                    transform: [{ scale: Math.min(state.scale, state.maxScale) }],
+                    transform: [{ scale: Math.min(state.scale,2) }],
                   },
                 ]}
                 resizeMode="cover"
