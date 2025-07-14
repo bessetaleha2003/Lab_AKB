@@ -58,11 +58,10 @@ export default function Index() {
   ];
 
   const [imageStates, setImageStates] = useState(
-    imageData.map((img, index) => ({
+    imageData.map((img) => ({
       id: img.id,
       isAlternative: false,
       scale: 1,
-      maxScale: 2,
     }))
   );
 
@@ -70,7 +69,7 @@ export default function Index() {
     setImageStates((prevStates) => {
       const updated = [...prevStates];
       const current = updated[index];
-      const newScale = Math.min(current.scale * 1.2, current.maxScale);
+      const newScale = current.scale < 2 ? Math.min(current.scale * 1.2, 2) : 2;
 
       updated[index] = {
         ...current,
