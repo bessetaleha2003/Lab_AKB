@@ -58,11 +58,11 @@ export default function Index() {
   ];
 
   const [imageStates, setImageStates] = useState(
-    imageData.map((img, index) => ({
+    imageData.map((img) => ({
       id: img.id,
       isAlternative: false,
       scale: 1,
-      maxScale: 2,
+      clickedOnce: false, // Tambahan
     }))
   );
 
@@ -70,12 +70,16 @@ export default function Index() {
     setImageStates((prevStates) => {
       const updated = [...prevStates];
       const current = updated[index];
-      const newScale = Math.min(current.scale * 1.2, current.maxScale);
+
+      const newScale = current.clickedOnce
+        ? current.scale // tidak ubah skala lagi
+        : Math.min(current.scale * 1.2, 2); // maksimum 2x
 
       updated[index] = {
         ...current,
         isAlternative: !current.isAlternative,
         scale: newScale,
+        clickedOnce: true, // Setelah diklik pertama kali
       };
 
       return updated;
