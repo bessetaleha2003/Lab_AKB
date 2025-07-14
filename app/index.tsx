@@ -58,11 +58,11 @@ export default function Index() {
   ];
 
   const [imageStates, setImageStates] = useState(
-    imageData.map((img) => ({
+    imageData.map((img, index) => ({
       id: img.id,
       isAlternative: false,
       scale: 1,
-      clickedOnce: false, // Tambahan
+      maxScale: 2,
     }))
   );
 
@@ -70,17 +70,24 @@ export default function Index() {
     setImageStates((prevStates) => {
       const updated = [...prevStates];
       const current = updated[index];
-
-      const newScale = current.clickedOnce
-        ? current.scale // tidak ubah skala lagi
-        : Math.min(current.scale * 1.2, 2); // maksimum 2x
-
-      updated[index] = {
-        ...current,
-        isAlternative: !current.isAlternative,
-        scale: newScale,
-        clickedOnce: true, // Setelah diklik pertama kali
-      };
+      
+      // Reset scale to 1 when switching images, then apply scaling
+      if (current.isAlternative) {
+        // If currently showing alternative, switch to main and reset scale
+        updated[index] = {
+          ...current,
+          isAlternative: false,
+          scale: 1,
+        };
+      } else {
+        // If currently showing main, switch to alternative and scale up (but not exceed maxScale)
+        const newScale = Math.min(current.scale * 1.2, current.maxScale);
+        updated[index] = {
+          ...current,
+          isAlternative: true,
+          scale: newScale,
+        };
+      }
 
       return updated;
     });
@@ -109,9 +116,10 @@ export default function Index() {
                 style={[
                   styles.image,
                   {
-                    transform: [{ scale: state.scale }],
+                    transform: [{ scale: Math.min(state.scale, state.maxScale) }],
                   },
                 ]}
+                resizeMode="cover"
               />
             </TouchableOpacity>
           ))}
