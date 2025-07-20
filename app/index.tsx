@@ -1,173 +1,133 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
-import { MaterialIcons } from '@expo/vector-icons';
+import { Text, View, ScrollView } from "react-native";
 
-const initialGridImages = [
-  { id: 1, mainSrc: 'https://picsum.photos/id/10/200', altSrc: 'https://picsum.photos/id/11/200', isFlipped: false, scale: 1 },
-  { id: 2, mainSrc: 'https://picsum.photos/id/12/200', altSrc: 'https://picsum.photos/id/13/200', isFlipped: false, scale: 1 },
-  { id: 3, mainSrc: 'https://picsum.photos/id/14/200', altSrc: 'https://picsum.photos/id/15/200', isFlipped: false, scale: 1 },
-  { id: 4, mainSrc: 'https://picsum.photos/id/16/200', altSrc: 'https://picsum.photos/id/17/200', isFlipped: false, scale: 1 },
-  { id: 5, mainSrc: 'https://picsum.photos/id/18/200', altSrc: 'https://picsum.photos/id/19/200', isFlipped: false, scale: 1 },
-  { id: 6, mainSrc: 'https://picsum.photos/id/20/200', altSrc: 'https://picsum.photos/id/21/200', isFlipped: false, scale: 1 },
-  { id: 7, mainSrc: 'https://picsum.photos/id/22/200', altSrc: 'https://picsum.photos/id/23/200', isFlipped: false, scale: 1 },
-  { id: 8, mainSrc: 'https://picsum.photos/id/24/200', altSrc: 'https://picsum.photos/id/25/200', isFlipped: false, scale: 1 },
-  { id: 9, mainSrc: 'https://picsum.photos/id/26/200', altSrc: 'https://picsum.photos/id/27/200', isFlipped: false, scale: 1 },
+// --- DATA MAHASISWA --- //
+const mahasiswaList = [
+  { stambuk: "105841108122", nama: "Rosfika Awalia" },
+  { stambuk: "105841108222", nama: "YOGI A. AMMAH" },
+  { stambuk: "105841108722", nama: "Usran" },
+  { stambuk: "105841108822", nama: "Rika Armayani" },
+  { stambuk: "105841109022", nama: "ANNAS URBACH NINGRUM" },
+  { stambuk: "105841109222", nama: "Besse Taleha" },
+  { stambuk: "105841109322", nama: "Dinda safitri" },
+  { stambuk: "105841109422", nama: "MUH. FARREL APTA INDRATAMA" },
+  { stambuk: "105841109622", nama: "FAUZAN AZHARI RAHMAN" },
+  { stambuk: "105841109722", nama: "MUH. FADHIL AHMAD" },
+  { stambuk: "105841109822", nama: "DAYANG AISYAH" },
 ];
 
-export default function Index() {
-  const [gridImages, setGridImages] = useState(initialGridImages);
+// --- DAFTAR FONT --- //
+const fontStatis = [
+  "WorkSans-Medium",
+  "Nunito-SemiBold",
+  "Merriweather-BoldItalic",
+  "FiraSans-Regular",
+  "Bitter-Thin",
+];
 
-  // Fungsi untuk menangani klik gambar
-  const handleImagePress = (imageId: number) => {
-    setGridImages(currentImages =>
-      currentImages.map(image => {
-        if (image.id === imageId) {
-          // Hitung skala baru dengan batasan maksimal 2x
-          const newScale = Math.min(image.scale * 1.2, 2);
-          return {
-            ...image,
-            isFlipped: !image.isFlipped, // Toggle gambar utama/alternatif
-            scale: newScale, // Terapkan scaling
-          };
-        }
-        return image;
-      })
-    );
-  };
+const fontVariabel = [
+  "Archivo-Variable",
+  "IBMPlexSans-Variable",
+  "Mulish-Variable",
+  "NotoSans-Variable",
+  "Recursive-Variable",
+];
+
+// --- KOMPONEN UTAMA --- //
+export default function Index() {
+  const posisi = 5; // ubah ini sesuai posisi anda
+  const dataSaya = mahasiswaList[posisi];
+
+  const namaSebelum = [];
+  const namaSesudah = [];
+
+  // Ambil 5 nama sebelumnya (memutar ke belakang jika perlu)
+  for (let i = 1; i <= 5; i++) {
+    const index = (posisi - i + mahasiswaList.length) % mahasiswaList.length;
+    namaSebelum.unshift(mahasiswaList[index]);
+  }
+
+  // Ambil 5 nama sesudah (memutar ke awal jika perlu)
+  for (let i = 1; i <= 5; i++) {
+    const index = (posisi + i) % mahasiswaList.length;
+    namaSesudah.push(mahasiswaList[index]);
+  }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {/* Bagian komponen lama tetap sama */}
-      <View style={styles.rectangle}>
-        
-      </View>
-      <View style={styles.triangle} />
-      <View style={styles.pill}>
-        <MaterialIcons name="person" size={24} color="white" />
-        <Text style={styles.pillText}>105841109222</Text>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.redText}>Besse Taleha</Text>
-      </View>
-      <View style={styles.blueCircle}></View>
-
-      {/* Grid gambar 3x3 */}
-      <View style={styles.gridContainer}>
-        {gridImages.map(image => (
-          <TouchableOpacity
-            key={image.id}
-            onPress={() => handleImagePress(image.id)}
-            style={styles.gridCell}
+    <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 24,
+      }}
+    >
+      <View style={{ alignItems: "center" }}>
+        {/* --- Bagian Nama Sebelum --- */}
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "bold",
+            marginBottom: 20,
+          }}
+        >
+          5 Nama sebelum urutan stambuk (Font Statis)
+        </Text>
+        {namaSebelum.map((item, idx) => (
+          <Text
+            key={item.stambuk}
+            style={{
+              fontFamily: fontStatis[idx % fontStatis.length],
+              fontSize: 16,
+              marginBottom: 12,
+            }}
           >
-            <Image
-              source={{ uri: image.isFlipped ? image.altSrc : image.mainSrc }}
-              style={[
-                styles.gridImage,
-                { 
-                  transform: [{ scale: image.scale }],
-                  borderRadius: 8, // Untuk konsistensi dengan sel
-                }
-              ]}
-              resizeMode="cover"
-            />
-          </TouchableOpacity>
+            {item.nama}
+          </Text>
+        ))}
+
+        {/* --- Data Saya --- */}
+        <View
+          style={{
+            marginVertical: 20,
+            padding: 20,
+            borderWidth: 2,
+            borderColor: "blue",
+            borderRadius: 8,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 16, fontWeight: "600", marginBottom: 8 }}>
+            {dataSaya.nama}
+          </Text>
+          <Text style={{ fontWeight: "800", fontSize: 14 }}>
+            {dataSaya.stambuk}
+          </Text>
+        </View>
+
+        {/* --- Bagian Nama Sesudah --- */}
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "bold",
+            marginBottom: 20,
+          }}
+        >
+          5 Nama setelah urutan stambuk (Font Variabel)
+        </Text>
+        {namaSesudah.map((item, idx) => (
+          <Text
+            key={item.stambuk}
+            style={{
+              fontFamily: fontVariabel[idx % fontVariabel.length],
+              fontWeight: `${(idx + 3) * 100}` as any,
+              fontSize: 16,
+              marginBottom: 12,
+            }}
+          >
+            {item.nama}
+          </Text>
         ))}
       </View>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    paddingVertical: 60,
-  },
-  rectangle: {
-    overflow: "hidden",
-    marginBottom: 20,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-  },
-  triangle: {
-    width: 0,
-    height: 0,
-    borderLeftWidth: 40,
-    borderRightWidth: 40,
-    borderBottomWidth: 70,
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
-    borderBottomColor: "orange",
-    marginBottom: 20,
-  },
-  pill: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#4a90e2",
-    borderRadius: 50,
-    paddingHorizontal: 20,
-    paddingVertical: 5,
-    marginBottom: 15,
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
- 
-  },
-  pillText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 18,
-    marginLeft: 10,
-  },
-  textContainer: {
-    backgroundColor: "black",
-    marginTop: 5,
-    padding: 10,
-    alignItems: 'center',
-  },
-  redText: {
-    color: "red",
-    fontSize: 15,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  whiteText: {
-    color: "white",
-    fontWeight: "bold",
-  },
-  blueCircle: {
-    width: 50,
-    height: 50,
-    backgroundColor: "blue",
-    borderRadius: 100,
-    marginTop: 10
-  },
-  gridContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    width: '100%',
-    maxWidth: 330, // Maksimal 3 kolom (100*3 + margin)
-    marginTop: 20,
-  },
-  gridCell: {
-    width: 100,
-    height: 100,
-    margin: 5,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  gridImage: {
-    width: '100%',
-    height: '100%',
-  }
-});
