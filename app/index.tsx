@@ -1,133 +1,48 @@
-import { Text, View, ScrollView } from "react-native";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Entypo from '@expo/vector-icons/Entypo';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-// --- DATA MAHASISWA --- //
-const mahasiswaList = [
-  { stambuk: "105841108122", nama: "Rosfika Awalia" },
-  { stambuk: "105841108222", nama: "YOGI A. AMMAH" },
-  { stambuk: "105841108722", nama: "Usran" },
-  { stambuk: "105841108822", nama: "Rika Armayani" },
-  { stambuk: "105841109022", nama: "ANNAS URBACH NINGRUM" },
-  { stambuk: "105841109222", nama: "Besse Taleha" },
-  { stambuk: "105841109322", nama: "Dinda safitri" },
-  { stambuk: "105841109422", nama: "MUH. FARREL APTA INDRATAMA" },
-  { stambuk: "105841109622", nama: "FAUZAN AZHARI RAHMAN" },
-  { stambuk: "105841109722", nama: "MUH. FADHIL AHMAD" },
-  { stambuk: "105841109822", nama: "DAYANG AISYAH" },
-];
 
-// --- DAFTAR FONT --- //
-const fontStatis = [
-  "WorkSans-Medium",
-  "Nunito-SemiBold",
-  "Merriweather-BoldItalic",
-  "FiraSans-Regular",
-  "Bitter-Thin",
-];
 
-const fontVariabel = [
-  "Archivo-Variable",
-  "IBMPlexSans-Variable",
-  "Mulish-Variable",
-  "NotoSans-Variable",
-  "Recursive-Variable",
-];
-
-// --- KOMPONEN UTAMA --- //
-export default function Index() {
-  const posisi = 5; // ubah ini sesuai posisi anda
-  const dataSaya = mahasiswaList[posisi];
-
-  const namaSebelum = [];
-  const namaSesudah = [];
-
-  // Ambil 5 nama sebelumnya (memutar ke belakang jika perlu)
-  for (let i = 1; i <= 5; i++) {
-    const index = (posisi - i + mahasiswaList.length) % mahasiswaList.length;
-    namaSebelum.unshift(mahasiswaList[index]);
-  }
-
-  // Ambil 5 nama sesudah (memutar ke awal jika perlu)
-  for (let i = 1; i <= 5; i++) {
-    const index = (posisi + i) % mahasiswaList.length;
-    namaSesudah.push(mahasiswaList[index]);
-  }
-
+const IconScreen = () => {
   return (
-    <ScrollView
-      contentContainerStyle={{
-        flexGrow: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 24,
-      }}
-    >
-      <View style={{ alignItems: "center" }}>
-        {/* --- Bagian Nama Sebelum --- */}
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: "bold",
-            marginBottom: 20,
-          }}
-        >
-          5 Nama sebelum urutan stambuk (Font Statis)
-        </Text>
-        {namaSebelum.map((item, idx) => (
-          <Text
-            key={item.stambuk}
-            style={{
-              fontFamily: fontStatis[idx % fontStatis.length],
-              fontSize: 16,
-              marginBottom: 12,
-            }}
-          >
-            {item.nama}
-          </Text>
-        ))}
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>10 Ikon Berbeda</Text>
 
-        {/* --- Data Saya --- */}
-        <View
-          style={{
-            marginVertical: 20,
-            padding: 20,
-            borderWidth: 2,
-            borderColor: "blue",
-            borderRadius: 8,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16, fontWeight: "600", marginBottom: 8 }}>
-            {dataSaya.nama}
-          </Text>
-          <Text style={{ fontWeight: "800", fontSize: 14 }}>
-            {dataSaya.stambuk}
-          </Text>
-        </View>
+      <View style={styles.iconRow}>
+        <AntDesign name="rest" size={24} color="#4A90E2" />
+        <AntDesign name="wallet" size={24} color="#E74C3C" />
+        <AntDesign name="bank" size={24} color="#2ECC71" />
+        <AntDesign name="medicinebox" size={24} color="#9B59B6" />
+        <AntDesign name="idcard" size={24} color="#F39C12" />
+        <Entypo name="aircraft" size={24} color="#F1C40F" />
+        <Entypo name="adjust" size={24} color="#7a295bff" />
+        <Entypo name="add-user" size={24} color="#27AE60" />
+        <AntDesign name="slack-square" size={24} color="#2980B9" />
+        <Entypo name="battery" size={24} color="#16A085" />
 
-        {/* --- Bagian Nama Sesudah --- */}
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: "bold",
-            marginBottom: 20,
-          }}
-        >
-          5 Nama setelah urutan stambuk (Font Variabel)
-        </Text>
-        {namaSesudah.map((item, idx) => (
-          <Text
-            key={item.stambuk}
-            style={{
-              fontFamily: fontVariabel[idx % fontVariabel.length],
-              fontWeight: `${(idx + 3) * 100}` as any,
-              fontSize: 16,
-              marginBottom: 12,
-            }}
-          >
-            {item.nama}
-          </Text>
-        ))}
       </View>
     </ScrollView>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 22,
+    marginBottom: 20,
+    fontWeight: 'bold',
+  },
+  iconRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 20,
+  },
+});
+
+export default IconScreen;
