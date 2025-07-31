@@ -3,6 +3,8 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
 import { View, Text } from "react-native";
+import {TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -40,9 +42,51 @@ export default function RootLayout() {
     );
   }
 
+  // return (
+  //   <Stack
+  //     screenOptions={{
+  //       header: ({ navigation }) => (
+  //         <View style={{
+  //             height: 60,
+  //             backgroundColor: "#f8f8f8",
+  //             justifyContent: "center",
+  //             alignItems: "flex-start",
+  //             paddingHorizontal: 10,
+  //           }}>
+            
+  //           <TouchableOpacity style={{
+  //               width: 60,
+  //               marginLeft: 10,
+  //             }}>
+  //             <AntDesign name="home" size={24} color="black" />
+  //           </TouchableOpacity>
+  //         </View>
+  //       ),
+  //     }} />
+  // );
   return (
-  <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-    <Stack />
-  </View>
-);
+    <Stack>
+      <Stack.Screen
+        name="(tabs)"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="index"
+        options={{
+          title: "Ikon",
+          headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: "#f8f8f8",
+          },
+          headerTintColor: "#000",
+          headerTitleStyle: {
+            fontFamily: "Nunito-SemiBold",
+            fontSize: 20,
+          },
+        }}
+      />
+    </Stack>
+  );
 }
