@@ -1,39 +1,33 @@
 import { Tabs } from "expo-router";
-import AntDesign from '@expo/vector-icons/AntDesign';
+import { Ionicons } from "@expo/vector-icons";
 
-export default function TabLayout() {
+export default function TabsLayout() {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: "#438ee3ff",
-      }}
-    >
+    <Tabs>
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <AntDesign name="home" size={size} color={color} />
+            <Ionicons name="home-outline" color={color} size={size} />
           ),
         }}
       />
-      
-      <Tabs.Screen
-        name="about"
-        options={{
-          title: "Tentang Saya",
-          tabBarIcon: ({ color, size }) => (
-            <AntDesign name="infocirlceo" size={size} color={color} />
-          ),
-        }}
-      />
-
       <Tabs.Screen
         name="profil"
         options={{
           title: "Profil",
           tabBarIcon: ({ color, size }) => (
-            <AntDesign name="idcard" size={size} color={color} />
+            <Ionicons name="person-outline" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="about"
+        options={{
+          title: "About",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="information-circle-outline" color={color} size={size} />
           ),
         }}
       />
